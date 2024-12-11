@@ -10,11 +10,11 @@ package Models.Entities;
  */
 public class Sucursal {
     private Integer idSucursal;
-    private String nombre;
-    private String direccion;
-    private Double porcentajeGananciaAdmin;
-    private Double porcentajeGananciaSucursal;
-    private String telefono;
+    private String name;
+    private String direction;
+    private Double percentageAdmin;
+    private Double percentageSucursal;
+    private String phone;
     private boolean status;
 
     // Nombres de las columnas en la base de datos
@@ -26,14 +26,13 @@ public class Sucursal {
     public static final String PHONE = "phone";
     public static final String STATUS = "status";
 
-
-    public Sucursal(Integer idSucursal, String nombre, String direccion, Double porcentajeGananciaAdmin, Double porcentajeGananciaSucursal, String telefono, boolean status) {
+    public Sucursal(Integer idSucursal, String name, String direction, Double percentageAdmin, Double percentageSucursal, String phone, boolean status) {
         this.idSucursal = idSucursal;
-        this.nombre = nombre;
-        this.direccion = direccion;
-        this.porcentajeGananciaAdmin = porcentajeGananciaAdmin;
-        this.porcentajeGananciaSucursal = porcentajeGananciaSucursal;
-        this.telefono = telefono;
+        this.name = name;
+        this.direction = direction;
+        this.percentageAdmin = percentageAdmin;
+        this.percentageSucursal = percentageSucursal;
+        this.phone = phone;
         this.status = status;
     }
 
@@ -45,44 +44,44 @@ public class Sucursal {
         this.idSucursal = idSucursal;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getDireccion() {
-        return direccion;
+    public String getDirection() {
+        return direction;
     }
 
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
+    public void setDirection(String direction) {
+        this.direction = direction;
     }
 
-    public Double getPorcentajeGananciaAdmin() {
-        return porcentajeGananciaAdmin;
+    public Double getPercentageAdmin() {
+        return percentageAdmin;
     }
 
-    public void setPorcentajeGananciaAdmin(Double porcentajeGananciaAdmin) {
-        this.porcentajeGananciaAdmin = porcentajeGananciaAdmin;
+    public void setPercentageAdmin(Double percentageAdmin) {
+        this.percentageAdmin = percentageAdmin;
     }
 
-    public Double getPorcentajeGananciaSucursal() {
-        return porcentajeGananciaSucursal;
+    public Double getPercentageSucursal() {
+        return percentageSucursal;
     }
 
-    public void setPorcentajeGananciaSucursal(Double porcentajeGananciaSucursal) {
-        this.porcentajeGananciaSucursal = porcentajeGananciaSucursal;
+    public void setPercentageSucursal(Double percentageSucursal) {
+        this.percentageSucursal = percentageSucursal;
     }
 
-    public String getTelefono() {
-        return telefono;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public boolean isStatus() {
@@ -95,6 +94,6 @@ public class Sucursal {
     
     @Override
     public String toString() {
-        return this.getNombre(); // Devuelve el nombre como representación
+        return this.getName(); // Devuelve el nombre como representación
     }
 }

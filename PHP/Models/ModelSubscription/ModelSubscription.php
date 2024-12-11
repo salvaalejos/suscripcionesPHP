@@ -1,5 +1,5 @@
 <?php
-
+require __DIR__ . '/../DBManager.php';
 class ModelSubscription {
     private $db;
 
@@ -16,7 +16,11 @@ class ModelSubscription {
         mysqli_stmt_execute($stmt);
 
         $result = mysqli_stmt_get_result($stmt);
-        $subscription = mysqli_fetch_assoc($result);
+        $subscription = null;
+        if ($row = mysqli_fetch_assoc($result)) {
+            $row['status'] = $row['status'] == 1;
+            $subscription = $row;
+        }
 
         mysqli_stmt_close($stmt);
         $this->db->close($link);
@@ -76,7 +80,11 @@ class ModelSubscription {
         mysqli_stmt_execute($stmt);
 
         $result = mysqli_stmt_get_result($stmt);
-        $subscription = mysqli_fetch_assoc($result);
+        $subscription = null;
+        if ($row = mysqli_fetch_assoc($result)) {
+            $row['status'] = $row['status'] == 1;
+            $subscription = $row;
+        }
 
         mysqli_stmt_close($stmt);
         $this->db->close($link);

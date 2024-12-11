@@ -1,5 +1,5 @@
 <?php
-
+require __DIR__ . '/../DBManager.php';
 class ModelPayment {
     private $db;
 
@@ -7,7 +7,7 @@ class ModelPayment {
         $this->db = new DBManager(); // Instancia la conexión a la base de datos
     }
 
-    public function getAll() {
+    public function getAll() { // EndPoint creado
         $sql = "SELECT * FROM payment;";
         $link = $this->db->open();
 
@@ -24,7 +24,7 @@ class ModelPayment {
         return $payments;
     }
 
-    public function addPayment($payment) {
+    public function addPayment($payment) { // EndPoint creado
         $sql = "INSERT INTO payment (Subscription_idSubscription, amount, payment_date) VALUES (?, ?, ?);";
         $link = $this->db->open();
 
@@ -43,7 +43,7 @@ class ModelPayment {
         $this->db->close($link);
     }
 
-    public function getPaymentsBySubscription($idSubscription) {
+    public function getPaymentsBySubscription($idSubscription) { // EndPoint creado
         $sql = "SELECT * FROM payment WHERE Subscription_idSubscription = ?;";
         $link = $this->db->open();
 

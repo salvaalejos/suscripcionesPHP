@@ -127,11 +127,11 @@ public class ModelSucursal {
     }
 
     public void addSucursal(Sucursal s) throws Exception {
-        String name = s.getNombre();
-        String direction = s.getDireccion();
-        Double percentageAdmin = s.getPorcentajeGananciaAdmin();
+        String name = s.getName();
+        String direction = s.getDirection();
+        Double percentageAdmin = s.getPercentageAdmin();
         Double percentageSucursal = 100-percentageAdmin;
-        String phone = s.getTelefono();
+        String phone = s.getPhone();
         boolean status = s.isStatus();
 
         String sql = "INSERT INTO sucursal (name, direction, percentageAdmin, percentageSucursal, phone, status) VALUES (?, ?, ?, ?, ?, ?)";
@@ -152,11 +152,11 @@ public class ModelSucursal {
 
     public void updateSucursal(Sucursal s) throws Exception {
         Integer idSucursal = s.getIdSucursal();
-        String name = s.getNombre();
-        String direction = s.getDireccion();
-        Double percentageAdmin = s.getPorcentajeGananciaAdmin();
+        String name = s.getName();
+        String direction = s.getDirection();
+        Double percentageAdmin = s.getPercentageAdmin();
+        String phone = s.getPhone();
         Double percentageSucursal = 100-percentageAdmin;
-        String phone = s.getTelefono();
         boolean status = s.isStatus();
 
         String sql = "UPDATE sucursal SET name = ?, direction = ?, percentageAdmin = ?, percentageSucursal = ?, phone = ?, status = ? WHERE idSucursal = ?;";

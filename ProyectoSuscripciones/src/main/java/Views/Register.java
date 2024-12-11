@@ -6,21 +6,17 @@ package Views;
 
 import Models.Entities.Sucursal;
 import Models.Entities.User;
-import Models.ModelSucursal;
-import Models.ModelUser;
 import Utilities.Authentication;
 import Utilities.Paths;
-import static Utilities.Paths.SUCURSAL_FILE;
-import static Utilities.Paths.USER_FILE;
-
+import Utilities.Util;
 import Views.Seller_Views.HomeSellerPanel;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
+import org.apache.http.client.fluent.Form;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import java.util.ArrayList;
 import javax.swing.*;
 
@@ -30,17 +26,15 @@ import javax.swing.*;
  */
 public class Register extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Register
-     */
+    ///////////////// Ready with WEB SERVICE /////////////////
+
+
     private int actualTheme;
     private ArrayList<Sucursal> sucursales = new ArrayList<Sucursal>();
     private ArrayList<Sucursal> sucursalesList = new ArrayList<Sucursal>();
     private User seller = null;
     private HomeSellerPanel parent = null;
-    
-    private ModelSucursal modelSucursal = new ModelSucursal();
-    private ModelUser modelUser = new ModelUser();
+
     
     public Register() {
         initComponents();
@@ -294,18 +288,33 @@ public class Register extends javax.swing.JFrame {
 
         if (passwordMatch) {
             
-            
-            User userToRegister = new User(null, name, username, phone, 2, sucursal.getIdSucursal(), email, true, password);
-            User user = null;
-            
-            try {
-                user = new ModelUser().register(userToRegister);
 
-                JOptionPane.showMessageDialog(null,"Usuario registrado con éxito");
-                System.out.println("Nombre usuario: "+user.getName()+"\nSucursal: "+modelSucursal.byUser(user.getSucursal()));
+            User user = null;
+
+            Form form = Form.form();
+            form.add("username", username);
+            form.add("name", name);
+            form.add("phone", phone);
+            form.add("user_type", "2");
+            form.add("Sucursal_idSucursal", sucursal.getIdSucursal().toString());
+            form.add("email", email);
+            form.add("status", "1");
+            form.add("password", password);
+
+            try {
+                JSONObject json = Util.requestJsonObj(form, "ModelUser/endPointRegister.php");
+                if(json != null && !json.toString().equals("Error")) {
+
+                    user = new Gson().fromJson(json.toString(), User.class);
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al registrar usuario");
+                    return;
+                }
+
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null,"Error al registrar usuario");
                 e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error");
             }
             
             if(seller != null){
@@ -341,13 +350,52 @@ public class Register extends javax.swing.JFrame {
 
 
             if(seller != null){
-                Sucursal sucursalSeller = new ModelSucursal().byUser(seller.getId_user());
+
+                Sucursal sucursalSeller = null;
+
+                Form form = Form.form();
+                form.add("idUser", ""+seller.getId_user());
+
+                try {
+                    JSONObject json = Util.requestJsonObj(form, "ModelSucursal/endPointByUserSucursal.php");
+                    if(json != null && !json.toString().equals("Error")) {
+
+                        sucursalSeller = new Gson().fromJson(json.toString(), Sucursal.class);
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Error al obtener sucursal de vendedor");
+                        return;
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error");
+                }
+
                 sucursalesList.add(sucursalSeller);
+
             } else{
-                sucursalesList = new ModelSucursal().getActives();;
+                Form form = Form.form();
+
+                try {
+                    JSONArray array = Util.requestArray(form, "ModelSucursal/endPointGetActives.php");
+
+                    if(array != null) {
+                        java.lang.reflect.Type listType = new TypeToken<ArrayList<Sucursal>>() {}.getType();
+                        sucursalesList = new Gson().fromJson(array.toString(), listType);
+
+                    } else{
+                        JOptionPane.showMessageDialog(null, "Error al obtener sucursales");
+                        return;
+                    };
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error");
+                }
             }
 
             for(Sucursal sucursal : sucursalesList){
+                System.out.println(sucursal.getName());
                 sucursalSelector.addItem(sucursal);
             }
 

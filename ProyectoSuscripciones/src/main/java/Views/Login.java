@@ -4,6 +4,7 @@
  */
 package Views;
 
+import Utilities.Util;
 import Views.Admin_Views.ControlPanel;
 import Models.Entities.User;
 import Models.ModelUser;
@@ -15,6 +16,9 @@ import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import org.apache.http.client.fluent.Form;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import javax.swing.*;
 import java.io.BufferedReader;
@@ -29,10 +33,7 @@ import static Utilities.Paths.USER_FILE;
  */
 public class Login extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Login
-     */
-
+    ///////////////// Ready with WEB SERVICE /////////////////
 
     private int actualTheme = 0;
     
@@ -265,22 +266,35 @@ public class Login extends javax.swing.JFrame {
                 System.out.println("Username: " + username);
                 System.out.println("Password: " + password);
                 User user = null;
-                user = new ModelUser().login(username, password);
-                if(user != null){
-                    if(user.getUser_type() == 1){
-                        new ControlPanel(user).setVisible(true);
-                        dispose();
-                    } else if(user.getUser_type() == 2){
-                        new ControlPanelClients(user).setVisible(true);
-                        dispose();
-                    } else if(user.getUser_type() == 3){
-                        new SellerControlFrame(user).setVisible(true);
-                        dispose();
-                    }
-                } else{
-                    lblErrorMessage.setText("Usuario o contraseña incorrectos");
-                    panelErrorMessage.setVisible(true);
+                Form form = Form.form();
+                form.add("usr", username);
+                form.add("pass", password);
+
+                try {
+                    JSONObject json = Util.requestJsonObj(form, "ModelUser/endPointLogin.php");
+                    if(json != null && !json.toString().equals("Error")) {
+
+                        user = new Gson().fromJson(json.toString(), User.class);
+                        if(user.getUser_type() == 1){
+                            new ControlPanel(user).setVisible(true);
+                            dispose();
+                        } else if(user.getUser_type() == 2){
+                            new ControlPanelClients(user).setVisible(true);
+                            dispose();
+                        } else if(user.getUser_type() == 3){
+                            new SellerControlFrame(user).setVisible(true);
+                            dispose();
+                        }
+                    } else {
+                        lblErrorMessage.setText("Usuario o contraseña incorrectos");
+                        panelErrorMessage.setVisible(true);
+                    };
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error");
                 }
+
             }
         } catch (Exception e) {
             e.printStackTrace();

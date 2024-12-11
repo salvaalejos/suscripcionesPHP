@@ -57,7 +57,7 @@ public class SucursalControlPanel extends javax.swing.JPanel {
                     estado = "Inactiva";
                 }
                 
-                model.addRow(new Object[]{sucursal.getIdSucursal(), sucursal.getNombre(), sucursal.getDireccion(), sucursal.getTelefono(), estado});
+                model.addRow(new Object[]{sucursal.getIdSucursal(), sucursal.getName(), sucursal.getDirection(), sucursal.getPhone(), estado});
                 jTable1.setModel(model);
                 jTable1.updateUI();
             }
@@ -70,7 +70,7 @@ public class SucursalControlPanel extends javax.swing.JPanel {
     private void addSucursal(Sucursal sucursal){
         try {
             modelSucursal.addSucursal(sucursal);
-            JOptionPane.showMessageDialog(null, "Sucursal añadida: "+sucursal.getNombre());
+            JOptionPane.showMessageDialog(null, "Sucursal añadida: "+sucursal.getName());
             readSucursales();
         } catch (Exception e) {
             e.printStackTrace();
@@ -268,7 +268,7 @@ public class SucursalControlPanel extends javax.swing.JPanel {
             sucursal.setStatus(!sucursal.isStatus());
             modelSucursal.updateSucursal(sucursal);
             readSucursales();
-            JOptionPane.showMessageDialog(null, "Estado cambiado de la sucursal: "+sucursal.getNombre());
+            JOptionPane.showMessageDialog(null, "Estado cambiado de la sucursal: "+sucursal.getName());
         } catch (Exception e) {
             e.printStackTrace();
         }

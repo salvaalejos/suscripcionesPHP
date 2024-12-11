@@ -76,7 +76,7 @@ public class ClientControlPanel extends javax.swing.JPanel {
                 }
 
                 Sucursal s = modelSucursal.byId(client.getSucursal());
-                String sucursal = s.getNombre();
+                String sucursal = s.getName();
 
                 Subscription sub = modelSubscription.byUser(client.getId_user());
                 SubscriptionPlan plan = modelSubscriptionPlan.byId(sub.getSubscriptionPlan());

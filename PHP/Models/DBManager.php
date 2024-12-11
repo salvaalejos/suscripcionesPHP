@@ -8,7 +8,7 @@ class DBManager {
     private $port;
 
     public function __construct() {
-        $this->db = "tap2024_b_p3";
+        $this->db = "proyectoSuscripciones";
         $this->host = "localhost";
         $this->user = "root";
         $this->pass = "0451alejos@";

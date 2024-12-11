@@ -1,6 +1,7 @@
 <?php
 
-require 'Models/DBManager.php';
+require __DIR__ . '/../DBManager.php';
+
 
 class ModelUser {
     private $db;
@@ -21,6 +22,7 @@ class ModelUser {
 
         $user = null;
         if ($row = mysqli_fetch_assoc($result)) {
+            $row['status'] = $row['status'] == 1;
             $user = $row;
         }
 
@@ -72,6 +74,7 @@ class ModelUser {
 
         $user = null;
         if ($row = mysqli_fetch_assoc($result)) {
+            $row['status'] = $row['status'] == 1;
             $user = $row;
         }
 
@@ -115,6 +118,7 @@ class ModelUser {
 
         $users = [];
         while ($row = mysqli_fetch_assoc($result)) {
+            $row['status'] = $row['status'] == 1;
             $users[] = $row;
         }
 
@@ -134,6 +138,7 @@ class ModelUser {
 
         $users = [];
         while ($row = mysqli_fetch_assoc($result)) {
+            $row['status'] = $row['status'] == 1;
             $users[] = $row;
         }
 

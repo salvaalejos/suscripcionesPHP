@@ -5,13 +5,50 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ce2654e8-19b3-4ab5-8659-95290decfce8" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/Utilities/Util.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Models/Entities/Sucursal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Models/Entities/Sucursal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Models/ModelSucursal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Models/ModelSucursal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Views/Admin_Views/ClientControlPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Views/Admin_Views/ClientControlPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Views/Admin_Views/SellerControlPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Views/Admin_Views/SellerControlPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Views/Admin_Views/SucursalControlPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Views/Admin_Views/SucursalControlPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Views/Client_Views/HomeClientPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Views/Client_Views/HomeClientPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Views/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Views/Login.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Views/Register.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Views/Register.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Models/Entities/Sucursal.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Models/Entities/Sucursal.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Models/ModelSucursal.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Models/ModelSucursal.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Views/Admin_Views/ClientControlPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Views/Admin_Views/ClientControlPanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Views/Admin_Views/SellerControlPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Views/Admin_Views/SellerControlPanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Views/Admin_Views/SucursalControlPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Views/Admin_Views/SucursalControlPanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Views/Client_Views/HomeClientPanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Views/Client_Views/HomeClientPanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Views/Login$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Views/Login$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Views/Login$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Views/Login$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Views/Login$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Views/Login$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Views/Login$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Views/Login$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Views/Login$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Views/Login$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Views/Login$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Views/Login$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Views/Login$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Views/Login$7.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Views/Login.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Views/Login.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Views/Register$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Views/Register$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Views/Register$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Views/Register$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Views/Register$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Views/Register$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Views/Register$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Views/Register$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Views/Register$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Views/Register$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Views/Register.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Views/Register.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -21,26 +58,32 @@
   &quot;associatedIndex&quot;: 5
 }</component>
   <component name="ProjectId" id="2pSP7I32WkWRpYPC5H3m0ZLPHds" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "Application.Register.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "E:/Documentos/Proyecto Suscripciones/Con WS/ProyectoSuscripciones",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.keymap",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RunManager">
+}]]></component>
+  <component name="RunManager" selected="Application.Register">
     <configuration name="Main" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="com.mycompany.proyectosuscripciones.ProyectoSuscripciones" />
       <module name="ProyectoSuscripciones" />
@@ -48,6 +91,24 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Register" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Views.Register" />
+      <module name="ProyectoSuscripciones" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Views.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Register" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -71,6 +132,8 @@
       <workItem from="1732763539529" duration="1714000" />
       <workItem from="1732765291542" duration="131000" />
       <workItem from="1733800527808" duration="3828000" />
+      <workItem from="1733886647908" duration="18000" />
+      <workItem from="1733886696712" duration="8909000" />
     </task>
     <servers />
   </component>

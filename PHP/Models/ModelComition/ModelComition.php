@@ -1,5 +1,5 @@
 <?php
-
+require __DIR__ . '/../DBManager.php';
 class ModelComition {
     private $db;
 
@@ -7,7 +7,7 @@ class ModelComition {
         $this->db = new DBManager(); // Instancia la conexión a la base de datos
     }
 
-    public function addComition($comition) {
+    public function addComition($comition) { // EndPoint creado
         $sql = "INSERT INTO comition (Subscription_idSubscription, amount, comition_date, User_idSeller) VALUES (?, ?, ?, ?);";
         $link = $this->db->open();
 
@@ -27,7 +27,7 @@ class ModelComition {
         $this->db->close($link);
     }
 
-    public function bySeller($sellerId) {
+    public function bySeller($sellerId) { // EndPoint creado
         $sql = "SELECT * FROM comition WHERE User_idSeller = ?;";
         $link = $this->db->open();
 

@@ -1,5 +1,5 @@
 <?php
-
+require __DIR__ . '/../DBManager.php';
 class ModelSubscriptionPlan {
     private $db;
 
@@ -16,7 +16,11 @@ class ModelSubscriptionPlan {
         mysqli_stmt_execute($stmt);
 
         $result = mysqli_stmt_get_result($stmt);
-        $subscriptionPlan = mysqli_fetch_assoc($result);
+        $subscriptionPlan = null;
+        if ($row = mysqli_fetch_assoc($result)) {
+            $row['status'] = $row['status'] == 1;
+            $subscriptionPlan = $row;
+        }
 
         mysqli_stmt_close($stmt);
         $this->db->close($link);
@@ -36,6 +40,7 @@ class ModelSubscriptionPlan {
         $subscriptionPlans = [];
 
         while ($row = mysqli_fetch_assoc($result)) {
+            $row['status'] = $row['status'] == 1;
             $subscriptionPlans[] = $row;
         }
 
@@ -53,6 +58,7 @@ class ModelSubscriptionPlan {
         $subscriptionPlans = [];
 
         while ($row = mysqli_fetch_assoc($result)) {
+            $row['status'] = $row['status'] == 1;
             $subscriptionPlans[] = $row;
         }
 

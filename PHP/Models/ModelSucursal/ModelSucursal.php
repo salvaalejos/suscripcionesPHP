@@ -1,5 +1,6 @@
 <?php
 
+require __DIR__ . '/../DBManager.php';
 class ModelSucursal {
     private $db;
 
@@ -15,6 +16,11 @@ class ModelSucursal {
         $sucursales = [];
 
         while ($row = mysqli_fetch_assoc($result)) {
+            $row['idSucursal'] = (int) $row['idSucursal']; // Convertir a entero
+            $row['percentageAdmin'] = (double) $row['percentageAdmin'];
+            $row['percentageSucursal'] = (double) $row['percentageSucursal'];
+            $row['phone'] = (string) $row['phone']; // Asegurar que es string
+            $row['status'] = (bool) $row['status']; // Convierte el status a booleano
             $sucursales[] = $row; // Almacena cada sucursal como un array asociativo
         }
 
@@ -30,6 +36,11 @@ class ModelSucursal {
         $sucursales = [];
 
         while ($row = mysqli_fetch_assoc($result)) {
+            $row['idSucursal'] = (int) $row['idSucursal']; // Convertir a entero
+            $row['percentageAdmin'] = (double) $row['percentageAdmin'];
+            $row['percentageSucursal'] = (double) $row['percentageSucursal'];
+            $row['phone'] = (string) $row['phone']; // Asegurar que es string
+            $row['status'] = (bool) $row['status']; // Convierte el status a booleano
             $sucursales[] = $row;
         }
 
@@ -46,7 +57,15 @@ class ModelSucursal {
         mysqli_stmt_execute($stmt);
 
         $result = mysqli_stmt_get_result($stmt);
-        $sucursal = mysqli_fetch_assoc($result);
+        $sucursal = null;
+        if ($row = mysqli_fetch_assoc($result)) {
+            $row['idSucursal'] = (int) $row['idSucursal']; // Convertir a entero
+            $row['percentageAdmin'] = (double) $row['percentageAdmin'];
+            $row['percentageSucursal'] = (double) $row['percentageSucursal'];
+            $row['phone'] = (string) $row['phone']; // Asegurar que es string
+            $row['status'] = (bool) $row['status']; // Convierte el status a booleano
+            $sucursal = $row;
+        }
 
         mysqli_stmt_close($stmt);
         $this->db->close($link);
@@ -63,7 +82,15 @@ class ModelSucursal {
         mysqli_stmt_execute($stmt);
 
         $result = mysqli_stmt_get_result($stmt);
-        $sucursal = mysqli_fetch_assoc($result);
+        $sucursal = null;
+        if ($row = mysqli_fetch_assoc($result)) {
+            $row['idSucursal'] = (int) $row['idSucursal']; // Convertir a entero
+            $row['percentageAdmin'] = (double) $row['percentageAdmin'];
+            $row['percentageSucursal'] = (double) $row['percentageSucursal'];
+            $row['phone'] = (string) $row['phone']; // Asegurar que es string
+            $row['status'] = (bool) $row['status']; // Convierte el status a booleano
+            $sucursal = $row;
+        }
 
         mysqli_stmt_close($stmt);
         $this->db->close($link);

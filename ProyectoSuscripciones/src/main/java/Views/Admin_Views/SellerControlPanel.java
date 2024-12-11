@@ -68,7 +68,7 @@ public class SellerControlPanel extends javax.swing.JPanel {
 
                 
 
-                model.addRow(new Object[]{seller.getId_user(), seller.getUsername(), seller.getPhone(), seller.getEmail(), sucursal.getNombre(), estado});
+                model.addRow(new Object[]{seller.getId_user(), seller.getUsername(), seller.getPhone(), seller.getEmail(), sucursal.getName(), estado});
                 jTable1.setModel(model);
                 jTable1.updateUI();
             }

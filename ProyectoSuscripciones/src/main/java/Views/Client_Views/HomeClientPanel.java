@@ -481,7 +481,7 @@ public class HomeClientPanel extends javax.swing.JPanel {
             return;
         }
 
-        lblSucursal.setText(sucursal.getNombre());
+        lblSucursal.setText(sucursal.getName());
         lblPlan.setText(plan.getTitle());
         fieldEndDate.setText(subscription.getEnd_date());
         lblPick.setText("Llegando antes de: "+subscription.getEnd_date());
