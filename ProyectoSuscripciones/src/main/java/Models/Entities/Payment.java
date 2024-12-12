@@ -1,8 +1,8 @@
 package Models.Entities;
 
 public class Payment {
-    private Integer id_payment;
-    private Integer subscription;
+    private Integer idPayment;
+    private Integer Subscription_idSubscription;
     private Double amount;
     private String payment_date;
 
@@ -13,19 +13,19 @@ public class Payment {
     public static final String PAYMENT_DATE = "payment_date";
 
 
-    public Payment(Integer id_payment, Integer subscription, Double amount, String payment_date) {
-        this.subscription = subscription;
+    public Payment(Integer idPayment, Integer Subscription_idSubscription, Double amount, String payment_date) {
+        this.Subscription_idSubscription = Subscription_idSubscription;
         this.amount = amount;
         this.payment_date = payment_date;
-        this.id_payment = id_payment;
+        this.idPayment = idPayment;
     }
 
-    public Integer getSubscription() {
-        return subscription;
+    public Integer getSubscription_idSubscription() {
+        return Subscription_idSubscription;
     }
 
-    public void setSubscription(Integer subscription) {
-        this.subscription = subscription;
+    public void setSubscription_idSubscription(Integer subscription_idSubscription) {
+        this.Subscription_idSubscription = subscription_idSubscription;
     }
 
     public Double getAmount() {
@@ -42,5 +42,13 @@ public class Payment {
 
     public void setPayment_date(String payment_date) {
         this.payment_date = payment_date;
+    }
+
+    public Integer getIdPayment() {
+        return idPayment;
+    }
+
+    public void setIdPayment(Integer idPayment) {
+        this.idPayment = idPayment;
     }
 }

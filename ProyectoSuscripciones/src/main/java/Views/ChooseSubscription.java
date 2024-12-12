@@ -9,6 +9,7 @@ import Models.Entities.User;
 import Models.ModelSubscriptionPlan;
 import Models.ModelSucursal;
 import Models.ModelUser;
+import Utilities.Util;
 import Views.Seller_Views.HomeSellerPanel;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -21,6 +22,8 @@ import java.util.ArrayList;
 
 import static Utilities.Paths.SUBSCRIPTION_PLAN_FILE;
 import Views.Client_Views.ControlPanelClients;
+import org.apache.http.client.fluent.Form;
+import org.json.simple.JSONArray;
 
 /**
  *
@@ -64,6 +67,8 @@ public class ChooseSubscription extends javax.swing.JFrame {
 
     public ChooseSubscription(User user) {
         this.user = user;
+        System.out.println("Usuario: " + user.getName());
+        System.out.println("Sucursal: "+user.getSucursal());
         this.seller = null;
         initComponents();
         btnContinue.setVisible(true);
@@ -75,6 +80,7 @@ public class ChooseSubscription extends javax.swing.JFrame {
 
         try {
             plans = modelSubscriptionPlan.bySucursal(user.getSucursal());
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -96,7 +102,7 @@ public class ChooseSubscription extends javax.swing.JFrame {
         }
         for (SubscriptionPlan plan : plans) {
             if(seller != null){
-                SubscriptionPanel card = new SubscriptionPanel(plan, user, this, seller, parent); // Listo con BDD
+                SubscriptionPanel card = new SubscriptionPanel(plan, user, this, seller, parent); ///////////////////
                 card.setBounds(x, y, width, height);
                 panelSubscriptions.add(card);
                 y += height + 10;

@@ -6,16 +6,10 @@ package Views.Admin_Views;
 
 import Models.Entities.Sucursal;
 import Models.Entities.User;
-import static Utilities.Paths.SUCURSAL_FILE;
-import static Utilities.Paths.USER_FILE;
 
 import Models.ModelSucursal;
 import Models.ModelUser;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
+
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -64,11 +58,11 @@ public class SellerControlPanel extends javax.swing.JPanel {
                     estado = "Inactiva";
                 }
 
-                Sucursal sucursal = modelSucursal.byUser(seller.getId_user());
+                Sucursal sucursal = modelSucursal.byUser(seller.getIdUser());
 
                 
 
-                model.addRow(new Object[]{seller.getId_user(), seller.getUsername(), seller.getPhone(), seller.getEmail(), sucursal.getName(), estado});
+                model.addRow(new Object[]{seller.getIdUser(), seller.getUsername(), seller.getPhone(), seller.getEmail(), sucursal.getName(), estado});
                 jTable1.setModel(model);
                 jTable1.updateUI();
             }
@@ -205,7 +199,7 @@ public class SellerControlPanel extends javax.swing.JPanel {
         
         User seller = selectedSeller();
         try{
-            if(modelUser.delete(seller.getId_user())){
+            if(modelUser.delete(seller.getIdUser())){
                 readSellers();
                 JOptionPane.showMessageDialog(null, "Eliminacion del usuario "+seller.getUsername());
             } else{

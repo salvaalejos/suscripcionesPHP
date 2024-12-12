@@ -306,6 +306,11 @@ public class Register extends javax.swing.JFrame {
                 if(json != null && !json.toString().equals("Error")) {
 
                     user = new Gson().fromJson(json.toString(), User.class);
+                    if(seller != null){
+                        new ChooseSubscription(user, seller, parent).setVisible(true);
+                    } else{
+                        new ChooseSubscription(user).setVisible(true);
+                    }
 
                 } else {
                     JOptionPane.showMessageDialog(null, "Error al registrar usuario");
@@ -317,11 +322,7 @@ public class Register extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Error");
             }
             
-            if(seller != null){
-                new ChooseSubscription(user, seller, parent).setVisible(true);
-            } else{
-                new ChooseSubscription(user).setVisible(true);
-            }
+
             
             dispose();
         } else {
@@ -354,7 +355,7 @@ public class Register extends javax.swing.JFrame {
                 Sucursal sucursalSeller = null;
 
                 Form form = Form.form();
-                form.add("idUser", ""+seller.getId_user());
+                form.add("idUser", ""+seller.getIdUser());
 
                 try {
                     JSONObject json = Util.requestJsonObj(form, "ModelSucursal/endPointByUserSucursal.php");

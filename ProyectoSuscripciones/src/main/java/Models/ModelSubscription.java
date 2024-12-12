@@ -1,103 +1,80 @@
 package Models;
 
 import Models.Entities.Subscription;
+import Utilities.Util;
+import com.google.gson.Gson;
+import org.apache.http.client.fluent.Form;
+import org.json.simple.JSONObject;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-
-import static Models.Entities.Subscription.*;
 
 public class ModelSubscription {
-    private DBManager db;
 
     public ModelSubscription() {
-        db = new DBManager("localhost", "3306", "root", "0451alejos@", "proyectoSuscripciones");
     }
 
-    public ModelSubscription(DBManager db) {
-        this.db = db;
-    }
 
     public Subscription byUser(Integer idUser) throws Exception {
         Subscription s = null;
 
-        String sql = "SELECT * FROM subscription WHERE User_idUser = ? LIMIT 1";
-        db.open();
-        PreparedStatement pstmt = db.getCon().prepareStatement(sql);
-        pstmt.setInt(1, idUser);
+        Form form2 = Form.form();
+        form2.add("idUser", idUser.toString());
 
-        ResultSet rs = pstmt.executeQuery();
-        while (rs.next()) {
-            Integer idSubscription = rs.getInt(ID_SUBSCRIPTION);
-            String startDate = rs.getString(START_DATE);
-            String endDate = rs.getString(END_DATE);
-            boolean status = rs.getBoolean(STATUS);
-            Integer subscriptionPlan = rs.getInt(SUBSCRIPTION_PLAN);
-
-            s = new Subscription(idSubscription, idUser, startDate, endDate, status, subscriptionPlan);
+        try {
+            JSONObject json = Util.requestJsonObj(form2, "ModelSubscription/endPointByUser.php");
+            if(json != null && !json.toString().equals("Error")) {
+                s = new Gson().fromJson(json.toString(), Subscription.class);
+            }
+        } catch (Exception e) {
+            System.out.println("Error controlado, primera vez que se registra un usuario");
         }
-        rs.close();
-        pstmt.close();
-        db.close();
 
         return s;
     }
 
-    public void update(Subscription subscription) throws Exception {
-        String sql = "UPDATE subscription SET start_date = ?, end_date = ?, status = ?, SubscriptionPlan_idSubscriptionPlan = ? WHERE idSubscription = ?";
-        db.open();
-        PreparedStatement pstmt = db.getCon().prepareStatement(sql);
+    public void update(Subscription s) throws Exception {
+        Form updateForm = Form.form();
+        updateForm.add("idSubscription", s.getIdSubscription().toString());
+        updateForm.add("SubscriptionPlan_idSubscriptionPlan", s.getSubscriptionPlan_idSubscriptionPlan().toString());
+        updateForm.add("start_date", s.getStart_date());
+        updateForm.add("end_date", s.getEnd_date());
+        updateForm.add("status", s.isStatus() ? "1" : "0");
 
-        pstmt.setString(1, subscription.getStart_date());
-        pstmt.setString(2, subscription.getEnd_date());
-        pstmt.setBoolean(3, subscription.isStatus());
-        pstmt.setInt(4, subscription.getSubscriptionPlan());
-        pstmt.setInt(5, subscription.getId_subscription());
-
-        pstmt.executeUpdate();
-        pstmt.close();
-        db.close();
+        try{
+            Util.request(updateForm, "ModelSubscription/endPointUpdateSubscription.php");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void addSubscription(Subscription subscription) throws Exception {
-        String sql = "INSERT INTO subscription (User_idUser, start_date, end_date, status, SubscriptionPlan_idSubscriptionPlan) VALUES (?, ?, ?, ?, ?)";
-        db.open();
+        Form form = Form.form();
+        form.add("idUser", subscription.getUser_idUser().toString());
+        form.add("start_date", subscription.getStart_date());
+        form.add("end_date", subscription.getEnd_date());
+        form.add("status", subscription.isStatus() ? "1" : "0");
+        form.add("idSubscriptionPlan", subscription.getSubscriptionPlan_idSubscriptionPlan().toString());
 
-        PreparedStatement pstmt = db.getCon().prepareStatement(sql);
-
-        pstmt.setInt(1, subscription.getUser());
-        pstmt.setString(2, subscription.getStart_date());
-        pstmt.setString(3, subscription.getEnd_date());
-        pstmt.setBoolean(4, subscription.isStatus());
-        pstmt.setInt(5, subscription.getSubscriptionPlan());
-
-        pstmt.executeUpdate();
-        pstmt.close();
-        db.close();
+        try{
+            Util.request(form, "ModelSubscription/endPointAddSubscription.php");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public Subscription byId(Integer idSubscription) throws Exception {
         Subscription s = null;
 
-        String sql = "SELECT * FROM subscription WHERE idSubscription = ?";
-        db.open();
-        PreparedStatement pstmt = db.getCon().prepareStatement(sql);
-        pstmt.setInt(1, idSubscription);
+        Form form2 = Form.form();
+        form2.add("idSubscription", idSubscription.toString());
 
-        ResultSet rs = pstmt.executeQuery();
-        while (rs.next()) {
-            Integer idUser = rs.getInt(USER);
-            String startDate = rs.getString(START_DATE);
-            String endDate = rs.getString(END_DATE);
-            boolean status = rs.getBoolean(STATUS);
-            Integer subscriptionPlan = rs.getInt(SUBSCRIPTION_PLAN);
-
-            s = new Subscription(idSubscription, idUser, startDate, endDate, status, subscriptionPlan);
+        try {
+            JSONObject json = Util.requestJsonObj(form2, "ModelSubscription/endPointByIdSubscription.php");
+            if(json != null && !json.toString().equals("Error")) {
+                s = new Gson().fromJson(json.toString(), Subscription.class);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        rs.close();
-        pstmt.close();
-        db.close();
 
         return s;
     }

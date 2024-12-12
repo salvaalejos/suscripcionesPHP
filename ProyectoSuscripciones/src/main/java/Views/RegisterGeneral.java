@@ -4,24 +4,20 @@
  */
 package Views;
 
+import Utilities.Util;
 import Views.Admin_Views.ControlPanel;
 import Models.Entities.Sucursal;
 import Models.Entities.User;
-import Models.ModelSucursal;
-import Models.ModelUser;
 import Utilities.Authentication;
 import Utilities.Paths;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
+import org.apache.http.client.fluent.Form;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import javax.swing.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.util.ArrayList;
 
-import static Utilities.Paths.SUCURSAL_FILE;
-import static Utilities.Paths.USER_FILE;
 
 /**
  *
@@ -29,11 +25,9 @@ import static Utilities.Paths.USER_FILE;
  */
 public class RegisterGeneral extends javax.swing.JFrame {
 
-    /**
-     * Creates new form RegisterGeneral
-     */
+    //////////// Listo con WS ////////////
+
     private ArrayList<Sucursal> sucursales = new ArrayList<Sucursal>();
-    private ArrayList<User> users = new ArrayList<User>();
     private User admin;
 
     
@@ -256,7 +250,7 @@ public class RegisterGeneral extends javax.swing.JFrame {
 
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
         // TODO add your handling code here:
-        int user_type = userTypeSelector.getSelectedIndex() + 1;
+        Integer user_type = userTypeSelector.getSelectedIndex() + 1;
         String name = fieldName.getText();
         String username = fieldUsername.getText();
         String password = new String(fieldPassword.getPassword());
@@ -303,8 +297,34 @@ public class RegisterGeneral extends javax.swing.JFrame {
                 lblError.setVisible(false);
                 User admin = new User(null, name, username, phone, user_type, null, email, true, password);
                 try {
-                    new ModelUser().registerAdmin(admin);
-                    JOptionPane.showMessageDialog(null,"Administrador registrado con éxito");
+                    User userRegistered = null;
+                    Form form = Form.form();
+                    form.add("username", username);
+                    form.add("name", name);
+                    form.add("phone", phone);
+                    form.add("user_type", user_type.toString());
+                    form.add("Sucursal_idSucursal", null);
+                    form.add("email", email);
+                    form.add("status", "1");
+                    form.add("password", password);
+
+                    try {
+                        JSONObject json = Util.requestJsonObj(form, "ModelUser/endPointRegister.php");
+                        if(json != null && !json.toString().equals("Error")) {
+
+                            userRegistered = new Gson().fromJson(json.toString(), User.class);
+                            JOptionPane.showMessageDialog(null,"Administrador registrado con éxito");
+
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Error al registrar usuario");
+                            return;
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        JOptionPane.showMessageDialog(null, "Error");
+                    }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -314,9 +334,34 @@ public class RegisterGeneral extends javax.swing.JFrame {
                 try {
                     Sucursal sucursal = (Sucursal) sucursalSelector.getSelectedItem();
                     lblError.setVisible(false);
-                    User user = new User(null, name, username, phone, user_type, sucursal.getIdSucursal(), email, true, password);
-                    new ModelUser().register(user);
-                    JOptionPane.showMessageDialog(null, "Usuario registrado con éxito");
+                    User user = null;
+                    Form form = Form.form();
+                    form.add("username", username);
+                    form.add("name", name);
+                    form.add("phone", phone);
+                    form.add("user_type", user_type.toString());
+                    form.add("Sucursal_idSucursal", sucursal.getIdSucursal().toString());
+                    form.add("email", email);
+                    form.add("status", "1");
+                    form.add("password", password);
+
+                    try {
+                        JSONObject json = Util.requestJsonObj(form, "ModelUser/endPointRegister.php");
+                        if(json != null && !json.toString().equals("Error")) {
+
+                            user = new Gson().fromJson(json.toString(), User.class);
+                            JOptionPane.showMessageDialog(null, "Usuario registrado con éxito");
+
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Error al registrar usuario");
+                            return;
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        JOptionPane.showMessageDialog(null, "Error");
+                    }
+
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -327,27 +372,38 @@ public class RegisterGeneral extends javax.swing.JFrame {
                 try {
                     Sucursal sucursal = (Sucursal) sucursalSelector.getSelectedItem();
                     lblError.setVisible(false);
-                    User seller = new User(null, name, username, phone, user_type, sucursal.getIdSucursal(), email, true, password);
-                    new ModelUser().register(seller);
+                    User user = null;
+                    Form form = Form.form();
+                    form.add("username", username);
+                    form.add("name", name);
+                    form.add("phone", phone);
+                    form.add("user_type", user_type.toString());
+                    form.add("Sucursal_idSucursal", sucursal.getIdSucursal().toString());
+                    form.add("email", email);
+                    form.add("status", "1");
+                    form.add("password", password);
+
+                    try {
+                        JSONObject json = Util.requestJsonObj(form, "ModelUser/endPointRegister.php");
+                        if(json != null && !json.toString().equals("Error")) {
+
+                            user = new Gson().fromJson(json.toString(), User.class);
+                            JOptionPane.showMessageDialog(null, "Vendedor registrado con éxito");
+
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Error al registrar usuario");
+                            return;
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        JOptionPane.showMessageDialog(null, "Error");
+                    }
                     JOptionPane.showMessageDialog(null, "Vendedor registrado con éxito");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
-        /* case 4: // Sucursal
-                idSucursal = sucursalSelector.getSelectedIndex();
-                sucursal = sucursales.get(idSucursal);
-                if(name == null || username == null || password == null || phone == null || email == null || sucursal == null){
-                    lblError.setVisible(true);
-                    return;
-                }
-                lblError.setVisible(false);
-                User sucur = new User(idUser, name, username, phone, user_type, sucursal.getIdSucursal(), email, true, hashedPassword);
-                registerUser(sucur);
-                JOptionPane.showMessageDialog(null,"Cuenta de sucursal registrada con éxito");
-                break;
-
-        */
 
             default:
                 throw new IllegalArgumentException("Tipo de usuario no válido: " + user_type); // No se deberia tener otro tipo de usuario
@@ -388,13 +444,27 @@ public class RegisterGeneral extends javax.swing.JFrame {
         sucursales.clear();
         sucursalSelector.removeAll();
         try {
-            sucursales = new ModelSucursal().getActives();
+            Form form = Form.form();
+
+            try {
+                JSONArray array = Util.requestArray(form, "ModelSucursal/endPointGetActives.php");
+
+                if(array != null) {
+                    java.lang.reflect.Type listType = new TypeToken<ArrayList<Sucursal>>() {}.getType();
+                    sucursales = new Gson().fromJson(array.toString(), listType);
+
+                } else{
+                    JOptionPane.showMessageDialog(null, "Error al obtener sucursales");
+                    return;
+                };
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error");
+            }
 
             for(Sucursal sucursal : sucursales){
-                if(sucursal.isStatus()){
-                    sucursalSelector.addItem(sucursal);
-                }
-                
+                sucursalSelector.addItem(sucursal);
             }
             sucursalSelector.updateUI();
 

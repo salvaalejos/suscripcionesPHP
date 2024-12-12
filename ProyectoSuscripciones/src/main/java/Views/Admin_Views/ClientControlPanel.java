@@ -12,19 +12,10 @@ import Models.ModelSubscription;
 import Models.ModelSubscriptionPlan;
 import Models.ModelSucursal;
 import Models.ModelUser;
-import Utilities.Paths;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.util.ArrayList;
-
-import static Utilities.Paths.SUCURSAL_FILE;
-import static Utilities.Paths.USER_FILE;
 
 /**
  *
@@ -78,8 +69,8 @@ public class ClientControlPanel extends javax.swing.JPanel {
                 Sucursal s = modelSucursal.byId(client.getSucursal());
                 String sucursal = s.getName();
 
-                Subscription sub = modelSubscription.byUser(client.getId_user());
-                SubscriptionPlan plan = modelSubscriptionPlan.byId(sub.getSubscriptionPlan());
+                Subscription sub = modelSubscription.byUser(client.getIdUser());
+                SubscriptionPlan plan = modelSubscriptionPlan.byId(sub.getSubscriptionPlan_idSubscriptionPlan());
                 String subscription = plan.getTitle();
 
                 if(plan == null){
@@ -87,7 +78,7 @@ public class ClientControlPanel extends javax.swing.JPanel {
                     estado = "Inactiva";
                 }
 
-                model.addRow(new Object[]{client.getId_user(), client.getUsername(), client.getPhone(), client.getEmail(), sucursal, subscription, estado});
+                model.addRow(new Object[]{client.getIdUser(), client.getUsername(), client.getPhone(), client.getEmail(), sucursal, subscription, estado});
                 jTable1.setModel(model);
                 jTable1.updateUI();
             }
@@ -240,7 +231,7 @@ public class ClientControlPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         try{
             User client = selectedClient();
-            if(modelUser.delete(client.getId_user())){
+            if(modelUser.delete(client.getIdUser())){
                 JOptionPane.showMessageDialog(null, "Usuario eliminado");
                 readClients();
             } else{
@@ -279,8 +270,8 @@ public class ClientControlPanel extends javax.swing.JPanel {
         try {
 
             User client = selectedClient();
-            Subscription sub = modelSubscription.byUser(client.getId_user());
-            SubscriptionPlan plan = modelSubscriptionPlan.byId(sub.getSubscriptionPlan());
+            Subscription sub = modelSubscription.byUser(client.getIdUser());
+            SubscriptionPlan plan = modelSubscriptionPlan.byId(sub.getSubscriptionPlan_idSubscriptionPlan());
 
             if (plan == null) {
                 JOptionPane.showMessageDialog(null, "No tiene suscripción aún, por lo que sigue INACTIVO");

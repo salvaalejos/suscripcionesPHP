@@ -1,101 +1,63 @@
 package Models;
 
 import Models.Entities.Sucursal;
+import Utilities.Util;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import org.apache.http.client.fluent.Form;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import static Models.Entities.Sucursal.*;
 
 public class ModelSucursal {
-    private DBManager db;
 
     public ModelSucursal() {
-        db = new DBManager("localhost", "3306", "root", "0451alejos@", "proyectoSuscripciones");
     }
 
-    public ModelSucursal(DBManager db) {
-        this.db = db;
-    }
 
     public ArrayList<Sucursal> getAll() throws Exception {
-        String sql = "SELECT * FROM sucursal";
-
         ArrayList<Sucursal> sucursales = new ArrayList<Sucursal>();
+        Form form = Form.form();
+        JSONArray array = Util.requestArray(form, "ModelSucursal/endPointGetAllSucursal.php");
 
-        db.open();
+        if(array != null) {
+            java.lang.reflect.Type listType = new TypeToken<ArrayList<Sucursal>>() {}.getType();
+            sucursales = new Gson().fromJson(array.toString(), listType);
 
-        ResultSet rs = db.getStm().executeQuery(sql);
-        while(rs.next()) {
-            Integer idSucursal = rs.getInt(ID_SUCURSAL);
-            String name = rs.getString(NAME);
-            String direction = rs.getString(DIRECTION);
-            Double percentageAdmin = rs.getDouble(PERCENTAGE_ADMIN);
-            Double percetageSucursal = rs.getDouble(PERCENTAGE_SUCURSAL);
-            String phone = rs.getString(PHONE);
-            boolean status = rs.getBoolean(STATUS);
-            Sucursal s = new Sucursal(idSucursal, name, direction, percentageAdmin, percetageSucursal, phone, status);
-
-            sucursales.add(s);
         }
-        rs.close();
-
-        db.close();
 
         return sucursales;
     }
 
     public ArrayList<Sucursal> getActives() throws Exception {
-        String sql = "SELECT * FROM sucursal WHERE status = 1";
-
         ArrayList<Sucursal> sucursales = new ArrayList<Sucursal>();
+        Form form = Form.form();
+        JSONArray array = Util.requestArray(form, "ModelSucursal/endPointGetActives.php");
 
-        db.open();
-
-        ResultSet rs = db.getStm().executeQuery(sql);
-        while(rs.next()) {
-            Integer idSucursal = rs.getInt(ID_SUCURSAL);
-            String name = rs.getString(NAME);
-            String direction = rs.getString(DIRECTION);
-            Double percentageAdmin = rs.getDouble(PERCENTAGE_ADMIN);
-            Double percetageSucursal = rs.getDouble(PERCENTAGE_SUCURSAL);
-            String phone = rs.getString(PHONE);
-            boolean status = rs.getBoolean(STATUS);
-            Sucursal s = new Sucursal(idSucursal, name, direction, percentageAdmin, percetageSucursal, phone, status);
-
-            sucursales.add(s);
+        if(array != null) {
+            java.lang.reflect.Type listType = new TypeToken<ArrayList<Sucursal>>() {}.getType();
+            sucursales = new Gson().fromJson(array.toString(), listType);
         }
-        rs.close();
-
-        db.close();
 
         return sucursales;
     }
     
     public Sucursal byUser(Integer idUser) throws Exception{
         Sucursal s = null;
-        
-        String sql = "SELECT * FROM Sucursal WHERE idSucursal = (SELECT idSucursal FROM User WHERE idUser = ?);";
-        db.open();
-        PreparedStatement pstmt = db.getCon().prepareStatement(sql);
-        pstmt.setInt(1, idUser);
 
-        
-        ResultSet rs = pstmt.executeQuery();
-        while(rs.next()) {
-            Integer idSucursal = rs.getInt(ID_SUCURSAL);
-            String name = rs.getString(NAME);
-            String direction = rs.getString(DIRECTION);
-            Double percentageAdmin = rs.getDouble(PERCENTAGE_ADMIN);
-            Double percetageSucursal = rs.getDouble(PERCENTAGE_SUCURSAL);
-            String phone = rs.getString(PHONE);
-            boolean status = rs.getBoolean(STATUS);
-            s = new Sucursal(idSucursal, name, direction, percentageAdmin, percetageSucursal, phone, status);
+        Form form= Form.form();
+        form.add("idUser", idUser.toString());
+
+        try {
+            JSONObject json = Util.requestJsonObj(form, "ModelSucursal/endPointByUserSucursal.php");
+            if(json != null && !json.toString().equals("Error")) {
+                s = new Gson().fromJson(json.toString(), Sucursal.class);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        rs.close();
-        pstmt.close();
-        db.close();
         
         return s;
     }
@@ -103,89 +65,61 @@ public class ModelSucursal {
     public Sucursal byId(Integer idSucursal) throws Exception{
         Sucursal s = null;
 
-        String sql = "SELECT * FROM Sucursal WHERE idSucursal = ?;";
-        db.open();
-        PreparedStatement pstmt = db.getCon().prepareStatement(sql);
-        pstmt.setInt(1, idSucursal);
+        Form form= Form.form();
+        form.add("idSucursal", idSucursal.toString());
 
-        ResultSet rs = pstmt.executeQuery();
-        while(rs.next()) {
-            Integer id = rs.getInt(ID_SUCURSAL);
-            String name = rs.getString(NAME);
-            String direction = rs.getString(DIRECTION);
-            Double percentageAdmin = rs.getDouble(PERCENTAGE_ADMIN);
-            Double percetageSucursal = rs.getDouble(PERCENTAGE_SUCURSAL);
-            String phone = rs.getString(PHONE);
-            boolean status = rs.getBoolean(STATUS);
-            s = new Sucursal(id, name, direction, percentageAdmin, percetageSucursal, phone, status);
+        try {
+            JSONObject json = Util.requestJsonObj(form, "ModelSucursal/endPointByIdSucursal.php");
+            if(json != null && !json.toString().equals("Error")) {
+                s = new Gson().fromJson(json.toString(), Sucursal.class);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        rs.close();
-        pstmt.close();
-        db.close();
 
         return s;
     }
 
     public void addSucursal(Sucursal s) throws Exception {
-        String name = s.getName();
-        String direction = s.getDirection();
-        Double percentageAdmin = s.getPercentageAdmin();
-        Double percentageSucursal = 100-percentageAdmin;
-        String phone = s.getPhone();
-        boolean status = s.isStatus();
+        Form form = Form.form();
+        form.add("name", s.getName());
+        form.add("direction", s.getDirection());
+        form.add("percentageAdmin", s.getPercentageAdmin().toString());
+        form.add("status", s.isStatus() ? "1" : "0");
+        form.add("phone", s.getPhone());
 
-        String sql = "INSERT INTO sucursal (name, direction, percentageAdmin, percentageSucursal, phone, status) VALUES (?, ?, ?, ?, ?, ?)";
-
-        db.open();
-        PreparedStatement pstmt = db.getCon().prepareStatement(sql);
-        pstmt.setString(1, name);
-        pstmt.setString(2, direction);
-        pstmt.setDouble(3, percentageAdmin);
-        pstmt.setDouble(4, percentageSucursal);
-        pstmt.setString(5, phone);
-        pstmt.setBoolean(6, status);
-
-        pstmt.executeUpdate();
-        pstmt.close();
-        db.close();
+        try{
+            Util.request(form, "ModelSucursal/endPointAddSucursal.php");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void updateSucursal(Sucursal s) throws Exception {
-        Integer idSucursal = s.getIdSucursal();
-        String name = s.getName();
-        String direction = s.getDirection();
-        Double percentageAdmin = s.getPercentageAdmin();
-        String phone = s.getPhone();
-        Double percentageSucursal = 100-percentageAdmin;
-        boolean status = s.isStatus();
+        Form form = Form.form();
+        form.add("idSucursal", s.getIdSucursal().toString());
+        form.add("name", s.getName());
+        form.add("direction", s.getDirection());
+        form.add("percentageAdmin", s.getPercentageAdmin().toString());
+        form.add("status", s.isStatus() ? "1" : "0");
+        form.add("phone", s.getPhone());
 
-        String sql = "UPDATE sucursal SET name = ?, direction = ?, percentageAdmin = ?, percentageSucursal = ?, phone = ?, status = ? WHERE idSucursal = ?;";
-
-        db.open();
-        PreparedStatement pstmt = db.getCon().prepareStatement(sql);
-        pstmt.setString(1, name);
-        pstmt.setString(2, direction);
-        pstmt.setDouble(3, percentageAdmin);
-        pstmt.setDouble(4, percentageSucursal);
-        pstmt.setString(5, phone);
-        pstmt.setBoolean(6, status);
-        pstmt.setInt(7, idSucursal);
-
-        pstmt.executeUpdate();
-        pstmt.close();
-        db.close();
+        try{
+            Util.request(form, "ModelSucursal/endPointUpdateSucursal.php");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void deleteSucursal(Integer idSucursal) throws Exception {
-        String sql = "DELETE FROM sucursal WHERE idSucursal = ?;";
+        Form form = Form.form();
+        form.add("idSucursal", idSucursal.toString());
 
-        db.open();
-        PreparedStatement pstmt = db.getCon().prepareStatement(sql);
-        pstmt.setInt(1, idSucursal);
-
-        pstmt.executeUpdate();
-        pstmt.close();
-        db.close();
+        try{
+            Util.request(form, "ModelSucursal/endPointDeleteSucursal.php");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 }

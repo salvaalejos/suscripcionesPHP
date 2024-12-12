@@ -9,12 +9,12 @@ package Models.Entities;
  * @author hfyh
  */
 public class Subscription {
-    private Integer id_subscription;
-    private Integer user;
+    private Integer idSubscription;
+    private Integer User_idUser;
     private String start_date;
     private String end_date;
     private boolean status;
-    private Integer subscriptionPlan;
+    private Integer SubscriptionPlan_idSubscriptionPlan;
 
     // Nombre de las columnas en la base de datos
     public static final String ID_SUBSCRIPTION = "idSubscription";
@@ -25,25 +25,25 @@ public class Subscription {
     public static final String SUBSCRIPTION_PLAN = "SubscriptionPlan_idSubscriptionPlan";
 
 
-    public Subscription(Integer id_subscription, Integer user, String start_date, String end_date, boolean status, Integer subscriptionPlan) {
-        this.id_subscription = id_subscription;
-        this.user = user;
+    public Subscription(Integer idSubscription, Integer User_idUser, String start_date, String end_date, boolean status, Integer SubscriptionPlan_idSubscriptionPlan) {
+        this.idSubscription = idSubscription;
+        this.User_idUser = User_idUser;
         this.start_date = start_date;
         this.end_date = end_date;
         this.status = status;
-        this.subscriptionPlan = subscriptionPlan;
+        this.SubscriptionPlan_idSubscriptionPlan = SubscriptionPlan_idSubscriptionPlan;
     }
 
-    public Integer getId_subscription() {
-        return id_subscription;
+    public Integer getIdSubscription() {
+        return idSubscription;
     }
 
-    public Integer getUser() {
-        return user;
+    public Integer getUser_idUser() {
+        return User_idUser;
     }
 
-    public void setUser(Integer user) {
-        this.user = user;
+    public void setUser_idUser(Integer user_idUser) {
+        this.User_idUser = user_idUser;
     }
 
     public String getStart_date() {
@@ -70,11 +70,11 @@ public class Subscription {
         this.status = status;
     }
 
-    public Integer getSubscriptionPlan() {
-        return subscriptionPlan;
+    public Integer getSubscriptionPlan_idSubscriptionPlan() {
+        return SubscriptionPlan_idSubscriptionPlan;
     }
 
-    public void setSubscriptionPlan(Integer subscriptionPlan) {
-        this.subscriptionPlan = subscriptionPlan;
+    public void setSubscriptionPlan_idSubscriptionPlan(Integer subscriptionPlan_idSubscriptionPlan) {
+        this.SubscriptionPlan_idSubscriptionPlan = subscriptionPlan_idSubscriptionPlan;
     }
 }

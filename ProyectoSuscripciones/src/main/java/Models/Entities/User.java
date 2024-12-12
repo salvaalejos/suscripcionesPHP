@@ -4,22 +4,18 @@
  */
 package Models.Entities;
 
-import Models.DBManager;
-
-import java.sql.ResultSet;
-
 /**
  *
  * @author hfyh
  */
 public class User {
-    private Integer id_user;
+    private Integer idUser;
     private String name;
     private String username;
     private String password;
     private String phone;
-    private int user_type; // 1 = admin, 2 = user, 3 = cashier, 4 = sucursal
-    private Integer idSucursal;
+    private Integer user_type; // 1 = admin, 2 = user, 3 = cashier, 4 = sucursal
+    private Integer Sucursal_idSucursal;
     private String email;
     private boolean status;
 
@@ -36,13 +32,13 @@ public class User {
 
 
 
-    public User(Integer id_user, String name, String username, String phone, int user_type, Integer idSucursal, String email, boolean status, String password) {
-        this.id_user = id_user;
+    public User(Integer idUser, String name, String username, String phone, Integer user_type, Integer Sucursal_idSucursal, String email, boolean status, String password) {
+        this.idUser = idUser;
         this.name = name;
         this.username = username;
         this.phone = phone;
         this.user_type = user_type;
-        this.idSucursal = idSucursal;
+        this.Sucursal_idSucursal = Sucursal_idSucursal;
         this.email = email;
         this.password = password;
         this.status = status;
@@ -70,12 +66,12 @@ public class User {
         this.status = status;
     }
 
-    public int getId_user() {
-        return id_user;
+    public Integer getIdUser() {
+        return idUser;
     }
 
-    public void setId_user(int id_user) {
-        this.id_user = id_user;
+    public void setIdUser(Integer idUser) {
+        this.idUser = idUser;
     }
 
     public String getName() {
@@ -102,20 +98,20 @@ public class User {
         this.phone = phone;
     }
 
-    public int getUser_type() {
+    public Integer getUser_type() {
         return user_type;
     }
 
-    public void setUser_type(int user_type) {
+    public void setUser_type(Integer user_type) {
         this.user_type = user_type;
     }
 
     public Integer getSucursal() {
-        return idSucursal;
+        return Sucursal_idSucursal;
     }
 
     public void setSucursal(Integer idSucursal) {
-        this.idSucursal = idSucursal;
+        this.Sucursal_idSucursal = idSucursal;
     }
 
     public String getEmail() {

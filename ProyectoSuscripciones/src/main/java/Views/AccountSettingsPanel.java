@@ -4,19 +4,15 @@
  */
 package Views;
 
-import Models.Entities.Sucursal;
 import Models.Entities.User;
-import Models.ModelSucursal;
-import Models.ModelUser;
 import Utilities.Authentication;
 import Utilities.Paths;
-import static Utilities.Paths.USER_FILE;
+
+import Utilities.Util;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.ArrayList;
-import javax.swing.ImageIcon;
+import org.apache.http.client.fluent.Form;
+import org.json.simple.JSONObject;
+import javax.swing.*;
 
 /**
  *
@@ -24,12 +20,9 @@ import javax.swing.ImageIcon;
  */
 public class AccountSettingsPanel extends javax.swing.JPanel {
 
-    /**
-     * Creates new form AccountSettingsPanel
-     */
+    //////////////// Listo con WS ////////////////
+
     private User admin;
-    private ModelSucursal modelSucursal = new ModelSucursal();
-    private ModelUser modelUser = new ModelUser();
     
     public AccountSettingsPanel() {
         initComponents();
@@ -47,7 +40,34 @@ public class AccountSettingsPanel extends javax.swing.JPanel {
 
     private void updateUsers(User usr){
         try {
-            modelUser.update(usr);
+            User user = null;
+            Form form = Form.form();
+            form.add("idUser", usr.getIdUser().toString());
+            form.add("username", usr.getUsername());
+            form.add("name", usr.getName());
+            form.add("phone", usr.getPhone());
+            form.add("user_type", usr.getUser_type().toString());
+            form.add("Sucursal_idSucursal", usr.getSucursal().toString());
+            form.add("email", usr.getEmail());
+            form.add("status", usr.isStatus() ? "1" : "0");
+            form.add("password", usr.getPassword());
+
+            try {
+                JSONObject json = Util.requestJsonObj(form, "ModelUser/endPointUpdateUser.php");
+                if(json != null && !json.toString().equals("Error")) {
+
+                    user = new Gson().fromJson(json.toString(), User.class);
+                    JOptionPane.showMessageDialog(null, "Usuario actualizado con éxito");
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al registrar usuario");
+                    return;
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

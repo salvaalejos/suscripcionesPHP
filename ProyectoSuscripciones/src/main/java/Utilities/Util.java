@@ -51,4 +51,14 @@ public class Util {
         }
     }
 
+    public static void request(Form form, String url) {
+        String ws = URL + url;
+        System.out.println(ws);
+        try {
+            Request.Post(ws).bodyForm(form.build()).execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

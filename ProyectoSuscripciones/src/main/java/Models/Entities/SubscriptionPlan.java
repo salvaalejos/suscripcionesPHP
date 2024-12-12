@@ -14,7 +14,7 @@ public class SubscriptionPlan {
     private Double price;
     private String title;
     private String description;
-    private Integer sucursal;
+    private Integer Sucursal_idSucursal;
     private boolean status;
 
     // Nombre de las columnas en la base de datos
@@ -25,12 +25,12 @@ public class SubscriptionPlan {
     public static final String ID_SUCURSAL = "Sucursal_idSucursal";
     public static final String STATUS = "status";
 
-    public SubscriptionPlan(Integer idSubscriptionPlan, Double price, String title, String description, Integer sucursal, boolean status) {
+    public SubscriptionPlan(Integer idSubscriptionPlan, Double price, String title, String description, Integer Sucursal_idSucursal, boolean status) {
         this.idSubscriptionPlan = idSubscriptionPlan;
         this.price = price;
         this.title = title;
         this.description = description;
-        this.sucursal = sucursal;
+        this.Sucursal_idSucursal = Sucursal_idSucursal;
         this.status = status;
     }
 
@@ -66,12 +66,12 @@ public class SubscriptionPlan {
         this.description = description;
     }
 
-    public Integer getSucursal() {
-        return sucursal;
+    public Integer getSucursal_idSucursal() {
+        return Sucursal_idSucursal;
     }
 
-    public void setSucursal(Integer sucursal) {
-        this.sucursal = sucursal;
+    public void setSucursal_idSucursal(Integer sucursal_idSucursal) {
+        this.Sucursal_idSucursal = sucursal_idSucursal;
     }
 
     public boolean isStatus() {

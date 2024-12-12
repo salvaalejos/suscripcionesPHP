@@ -8,20 +8,12 @@ import Models.*;
 import Models.Entities.*;
 import Utilities.Paths;
 import Views.ChooseSubscription;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-
-import static Utilities.Paths.*;
 
 /**
  *
@@ -61,10 +53,10 @@ public class HomeClientPanel extends javax.swing.JPanel {
 
     public void readData(){
         try{
-            this.sucursal = modelSucursal.byUser(user.getId_user());
-            this.subscription = modelSubscription.byUser(user.getId_user());
-            this.payments = modelPayment.getPaymentsBySubscription(subscription.getId_subscription());
-            this.plan = modelSubscriptionPlan.byId(subscription.getSubscriptionPlan());
+            this.sucursal = modelSucursal.byUser(user.getIdUser());
+            this.subscription = modelSubscription.byUser(user.getIdUser());
+            this.payments = modelPayment.getPaymentsBySubscription(subscription.getIdSubscription());
+            this.plan = modelSubscriptionPlan.byId(subscription.getSubscriptionPlan_idSubscriptionPlan());
             updateUI();
         } catch (Exception e){
             System.out.println("Error al leer los datos");
@@ -459,7 +451,7 @@ public class HomeClientPanel extends javax.swing.JPanel {
 
         this.subscription.setStart_date(LocalDate.now().toString());
         this.subscription.setEnd_date(LocalDate.parse(subscription.getEnd_date()).plusMonths(1).toString());
-        Payment payment = new Payment(null, subscription.getId_subscription(), plan.getPrice(), this.subscription.getStart_date());
+        Payment payment = new Payment(null, subscription.getIdSubscription(), plan.getPrice(), this.subscription.getStart_date());
         /////////////////////////////////
         saveSubscriptions();
         addPayment(payment);

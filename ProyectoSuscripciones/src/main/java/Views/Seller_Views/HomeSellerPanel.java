@@ -10,15 +10,9 @@ import Models.ModelComition;
 import Models.ModelSubscription;
 import Models.ModelSucursal;
 import Views.Register;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import javax.swing.JFrame;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.util.ArrayList;
-
-import static Utilities.Paths.COMITION_FILE;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -69,8 +63,8 @@ public class HomeSellerPanel extends javax.swing.JPanel {
             for (Comition comition : comitions) {
                 Double amount = comition.getAmount();
                 total += amount;
-                model.addRow(new Object[]{comition.getId_comition(),
-                        modelSubscription.byId(comition.getSubscription()).getId_subscription(),
+                model.addRow(new Object[]{comition.getIdComition(),
+                        modelSubscription.byId(comition.getSubscription_idSubscription()).getIdSubscription(),
                         comition.getComition_date(),
                         amount});
                 jTable1.setModel(model);

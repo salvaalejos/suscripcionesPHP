@@ -5,20 +5,16 @@ import Models.Entities.*;
 import Models.ModelComition;
 import Models.ModelPayment;
 import Models.ModelSubscription;
-import Models.ModelUser;
+import Utilities.Util;
 import Views.Client_Views.ControlPanelClients;
 import Views.Seller_Views.HomeSellerPanel;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import org.apache.http.client.fluent.Form;
+import org.json.simple.JSONObject;
 
 import javax.swing.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.time.LocalDate;
-import java.util.ArrayList;
 
-import static Utilities.Paths.*;
 
 /**
  *
@@ -26,21 +22,13 @@ import static Utilities.Paths.*;
  */
 public class SubscriptionPanel extends javax.swing.JPanel {
 
-    /**
-     * Creates new form SubscriptionPanel
-     */
+    //////////// Listo con WS ////////////
+
     private SubscriptionPlan plan;
     private User user = new User();
     private User seller = null;
     private HomeSellerPanel sellerFrame = null;
     private JFrame parent;
-    private ArrayList<Subscription> subscriptions = new ArrayList<Subscription>();
-    private ArrayList<Comition> comitions = new ArrayList<Comition>();
-    private ArrayList<Payment> payments = new ArrayList<Payment>();
-    private ModelUser modelUser = new ModelUser();
-    private ModelSubscription modelSubscription = new ModelSubscription();
-    private ModelComition modelComition = new ModelComition();
-    private ModelPayment modelPayment = new ModelPayment();
 
     public SubscriptionPanel() {
         initComponents();
@@ -73,7 +61,8 @@ public class SubscriptionPanel extends javax.swing.JPanel {
 
     private void addPayment(Payment payment) {
         try {
-            modelPayment.addPayment(payment);
+            new ModelPayment().addPayment(payment);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -222,16 +211,19 @@ public class SubscriptionPanel extends javax.swing.JPanel {
                 return;
             }
 
-            Subscription s = modelSubscription.byUser(user.getId_user());
+            Subscription s = new ModelSubscription().byUser(user.getIdUser());
+
             if (s != null) {
                 JOptionPane.showMessageDialog(null, "Plan cambiado con éxito");
-                s.setSubscriptionPlan(this.plan.getIdSubscriptionPlan());
+                s.setSubscriptionPlan_idSubscriptionPlan(this.plan.getIdSubscriptionPlan());
                 s.setStart_date(getStartDate());
                 s.setEnd_date(getEndDate());
-                modelSubscription.update(s);
+                new ModelSubscription().update(s);
+
+
                 Payment payment = new Payment(
                         null,
-                        s.getId_subscription(),
+                        s.getIdSubscription(),
                         plan.getPrice(),
                         getStartDate()
                 );
@@ -245,7 +237,7 @@ public class SubscriptionPanel extends javax.swing.JPanel {
 
             s = new Subscription(
                     null,
-                    user.getId_user(),
+                    user.getIdUser(),
                     getStartDate(),
                     getEndDate(),
                     true,
@@ -255,11 +247,11 @@ public class SubscriptionPanel extends javax.swing.JPanel {
             // Añadir para cuando vende alguien
 
             addSubscription(s);
-            Subscription newSub = modelSubscription.byUser(user.getId_user());
+            Subscription newSub = new ModelSubscription().byUser(user.getIdUser());
 
             Payment payment = new Payment(
                     null,
-                    newSub.getId_subscription(),
+                    newSub.getIdSubscription(),
                     plan.getPrice(),
                     getStartDate()
             );
@@ -269,8 +261,8 @@ public class SubscriptionPanel extends javax.swing.JPanel {
             if(seller != null){
                 Comition comition = new Comition(
                         null,
-                        seller.getId_user(),
-                        newSub.getId_subscription(),
+                        seller.getIdUser(),
+                        newSub.getIdSubscription(),
                         payment.getAmount() * 0.1,
                         getStartDate()
                 );
@@ -293,7 +285,8 @@ public class SubscriptionPanel extends javax.swing.JPanel {
 
     private void addSubscription(Subscription subscription) {
         try {
-            modelSubscription.addSubscription(subscription);
+            new ModelSubscription().addSubscription(subscription);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -301,7 +294,7 @@ public class SubscriptionPanel extends javax.swing.JPanel {
 
     private void addComition(Comition comition) {
         try {
-            modelComition.addComition(comition);
+            new ModelComition().addComition(comition);
         } catch (Exception e) {
             e.printStackTrace();
         }

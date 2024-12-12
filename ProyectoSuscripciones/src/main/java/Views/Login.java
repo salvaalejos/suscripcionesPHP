@@ -7,25 +7,15 @@ package Views;
 import Utilities.Util;
 import Views.Admin_Views.ControlPanel;
 import Models.Entities.User;
-import Models.ModelUser;
-import Utilities.Authentication;
 import Utilities.Paths;
 import Views.Client_Views.ControlPanelClients;
 import Views.Seller_Views.SellerControlFrame;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import org.apache.http.client.fluent.Form;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-
 import javax.swing.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.ArrayList;
-
-import static Utilities.Paths.USER_FILE;
 
 /**
  *

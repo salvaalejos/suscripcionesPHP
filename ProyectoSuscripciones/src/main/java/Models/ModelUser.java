@@ -1,54 +1,43 @@
 package Models;
 
 import Models.Entities.User;
+import Utilities.Util;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import org.apache.http.client.fluent.Form;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
-import java.sql.Array;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import javax.swing.*;
 import java.util.ArrayList;
 
 import static Models.Entities.User.*;
 
 public class ModelUser {
-    private DBManager db;
     String ruta = USERNAME;
     public ModelUser() {
-        db = new DBManager("localhost", "3306", "root", "0451alejos@", "proyectoSuscripciones");
-    }
 
-    public ModelUser(DBManager db) {
-        this.db = db;
     }
 
     public User login(String usr, String pass) throws Exception {
-        String sql = "SELECT * FROM user WHERE username=? AND password=SHA1(?) LIMIT 1";
 
         User u = null;
 
-        db.open();
-        PreparedStatement pstmt = db.getCon().prepareStatement(sql);
-        pstmt.setString(1, usr);
-        pstmt.setString(2, pass);
+        Form form = Form.form();
+        form.add("usr", usr);
+        form.add("pass", pass);
 
+        try {
+            JSONObject json = Util.requestJsonObj(form, "ModelUser/endPointLogin.php");
+            if(json != null && !json.toString().equals("Error")) {
 
-        ResultSet rs = pstmt.executeQuery();
-        if(rs.next()) {
+                u = new Gson().fromJson(json.toString(), User.class);
 
-            u = new User();
-            u.setId_user(rs.getInt(ID_USER));
-            u.setUsername(rs.getString(USERNAME));
-            u.setPassword(rs.getString(PASSWORD));
-            u.setName(rs.getString(NAME));
-            u.setUser_type(rs.getInt(USER_TYPE));
-            u.setPhone(rs.getString(PHONE));
-            u.setStatus(rs.getBoolean(STATUS));
-            u.setEmail(rs.getString(EMAIL));
-            u.setSucursal(rs.getInt(ID_SUCURSAL));
+            }
 
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        rs.close();
-        pstmt.close();
-        db.close();
 
         return u;
     }
@@ -57,33 +46,34 @@ public class ModelUser {
         String name = user.getName();
         String username = user.getUsername();
         String phone = user.getPhone();
-        int user_type = user.getUser_type();
-        int idSucursal = user.getSucursal();
+        Integer user_type = user.getUser_type();
+        Integer idSucursal = user.getSucursal();
         String email = user.getEmail();
         boolean status = user.isStatus();
         String password = user.getPassword();
 
-        String sql = "INSERT INTO user (name, username, phone, user_type, Sucursal_idSucursal, email, status, password) VALUES (?, ?, ?, ?, ?, ?, ?, SHA1(?))";
-
         User u = null;
 
-        db.open();
-        PreparedStatement pstmt = db.getCon().prepareStatement(sql);
-        pstmt.setString(1, name);
-        pstmt.setString(2, username);
-        pstmt.setString(3, phone);
-        pstmt.setInt(4, user_type);
-        pstmt.setInt(5, idSucursal);
-        pstmt.setString(6, email);
-        pstmt.setBoolean(7, status);
-        pstmt.setString(8, password);
 
+        Form form = Form.form();
+        form.add("username", username);
+        form.add("name", name);
+        form.add("phone", phone);
+        form.add("user_type", user_type.toString());
+        form.add("Sucursal_idSucursal", idSucursal.toString());
+        form.add("email", email);
+        form.add("status", status ? "1" : "0");
+        form.add("password", password);
 
-        pstmt.executeUpdate();
-        pstmt.close();
-        db.close();
-
-        u = login(username, password);
+        try {
+            JSONObject json = Util.requestJsonObj(form, "ModelUser/endPointRegister.php");
+            if(json != null && !json.toString().equals("Error")) {
+                u = new Gson().fromJson(json.toString(), User.class);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error");
+        }
 
         return u;
     }
@@ -92,110 +82,93 @@ public class ModelUser {
         String name = user.getName();
         String username = user.getUsername();
         String phone = user.getPhone();
-        int user_type = user.getUser_type();
+        Integer user_type = user.getUser_type();
         String email = user.getEmail();
         boolean status = user.isStatus();
         String password = user.getPassword();
 
-        String sql = "INSERT INTO user (name, username, phone, user_type, email, status, password) VALUES (?, ?, ?, ?, ?, ?, SHA1(?))";
-
         User u = null;
 
-        db.open();
-        PreparedStatement pstmt = db.getCon().prepareStatement(sql);
-        pstmt.setString(1, name);
-        pstmt.setString(2, username);
-        pstmt.setString(3, phone);
-        pstmt.setInt(4, user_type);
-        pstmt.setString(5, email);
-        pstmt.setBoolean(6, status);
-        pstmt.setString(7, password);
 
+        Form form = Form.form();
+        form.add("username", username);
+        form.add("name", name);
+        form.add("phone", phone);
+        form.add("user_type", user_type.toString());
+        form.add("Sucursal_idSucursal", null);
+        form.add("email", email);
+        form.add("status", status ? "1" : "0");
+        form.add("password", password);
 
-        pstmt.executeUpdate();
-        pstmt.close();
-        db.close();
+        try {
+            JSONObject json = Util.requestJsonObj(form, "ModelUser/endPointRegister.php");
+            if(json != null && !json.toString().equals("Error")) {
+                u = new Gson().fromJson(json.toString(), User.class);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public User byId(Integer idUser) throws Exception {
         User u = null;
 
-        String sql = "SELECT * FROM user WHERE idUser = ?;";
-        db.open();
-        PreparedStatement pstmt = db.getCon().prepareStatement(sql);
-        pstmt.setInt(1, idUser);
+        Form form = Form.form();
+        form.add("idUser", idUser.toString());
 
-        ResultSet rs = pstmt.executeQuery();
-        while(rs.next()) {
-            Integer id = rs.getInt(ID_USER);
-            String name = rs.getString(NAME);
-            String username = rs.getString(USERNAME);
-            String phone = rs.getString(PHONE);
-            int user_type = rs.getInt(USER_TYPE);
-            int idSucursal = rs.getInt(ID_SUCURSAL);
-            String email = rs.getString(EMAIL);
-            boolean status = rs.getBoolean(STATUS);
-            String password = rs.getString(PASSWORD);
-            u = new User(id, name, username, phone, user_type, idSucursal, email, status, password);
+        try {
+            JSONObject json = Util.requestJsonObj(form, "ModelUser/endPointByIdUser.php");
+            if(json != null && !json.toString().equals("Error")) {
+                u = new Gson().fromJson(json.toString(), User.class);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        rs.close();
-        pstmt.close();
-        db.close();
 
         return u;
     }
 
     public void update(User user) throws Exception {
-        Integer idUser = user.getId_user();
+        Integer idUser = user.getIdUser();
         String name = user.getName();
         String username = user.getUsername();
         String phone = user.getPhone();
-        int user_type = user.getUser_type();
-        int idSucursal = user.getSucursal();
+        Integer user_type = user.getUser_type();
+        Integer idSucursal = user.getSucursal();
         String email = user.getEmail();
         boolean status = user.isStatus();
+        String password = user.getPassword();
 
-        String sql = "UPDATE user SET name = ?, username = ?, phone = ?, user_type = ?, Sucursal_idSucursal = ?, email = ?, status = ? WHERE idUser = ?";
 
-        db.open();
-        PreparedStatement pstmt = db.getCon().prepareStatement(sql);
-        pstmt.setString(1, name);
-        pstmt.setString(2, username);
-        pstmt.setString(3, phone);
-        pstmt.setInt(4, user_type);
-        pstmt.setInt(5, idSucursal);
-        pstmt.setString(6, email);
-        pstmt.setBoolean(7, status);
-        pstmt.setInt(8, idUser);
+        Form form = Form.form();
+        form.add("idUser", idUser.toString());
+        form.add("name", name);
+        form.add("username", username);
+        form.add("phone", phone);
+        form.add("status", status ? "1" : "0");
+        form.add("user_type", user_type.toString());
+        form.add("Sucursal_idSucursal", idSucursal.toString());
+        form.add("email", email);
+        form.add("password", password);
 
-        pstmt.executeUpdate();
-        pstmt.close();
-        db.close();
+        try{
+            Util.request(form, "ModelUser/endPointUpdateUser.php");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public ArrayList<User> getAll() throws Exception {
-        ArrayList<User> users = new ArrayList<>();
+        ArrayList<User> users = new ArrayList<User>();
 
-        String sql = "SELECT * FROM user";
-        db.open();
+        Form form = Form.form();
+        JSONArray array = Util.requestArray(form, "ModelUser/endPointGetAllUser.php");
 
-        ResultSet rs = db.getStm().executeQuery(sql);
-        while(rs.next()) {
-            Integer id = rs.getInt(ID_USER);
-            String name = rs.getString(NAME);
-            String username = rs.getString(USERNAME);
-            String phone = rs.getString(PHONE);
-            int user_type = rs.getInt(USER_TYPE);
-            int idSucursal = rs.getInt(ID_SUCURSAL);
-            String email = rs.getString(EMAIL);
-            boolean status = rs.getBoolean(STATUS);
-            String password = rs.getString(PASSWORD);
-            User u = new User(id, name, username, phone, user_type, idSucursal, email, status, password);
-            users.add(u);
+        if(array != null) {
+            java.lang.reflect.Type listType = new TypeToken<ArrayList<User>>() {}.getType();
+            users = new Gson().fromJson(array.toString(), listType);
         }
-        rs.close();
-
-        db.close();
 
         return users;
     }
@@ -203,26 +176,15 @@ public class ModelUser {
     public ArrayList<User> getSellers() throws Exception {
         ArrayList<User> users = new ArrayList<>();
 
-        String sql = "SELECT * FROM user WHERE user_type = 3";
-        db.open();
+        Form form = Form.form();
+        form.add("user_type", "3");
 
-        ResultSet rs = db.getStm().executeQuery(sql);
-        while(rs.next()) {
-            Integer id = rs.getInt(ID_USER);
-            String name = rs.getString(NAME);
-            String username = rs.getString(USERNAME);
-            String phone = rs.getString(PHONE);
-            int user_type = rs.getInt(USER_TYPE);
-            int idSucursal = rs.getInt(ID_SUCURSAL);
-            String email = rs.getString(EMAIL);
-            boolean status = rs.getBoolean(STATUS);
-            String password = rs.getString(PASSWORD);
-            User u = new User(id, name, username, phone, user_type, idSucursal, email, status, password);
-            users.add(u);
+        JSONArray array = Util.requestArray(form, "ModelUser/endPointGetByUserType.php");
+
+        if(array != null) {
+            java.lang.reflect.Type listType = new TypeToken<ArrayList<User>>() {}.getType();
+            users = new Gson().fromJson(array.toString(), listType);
         }
-        rs.close();
-
-        db.close();
 
         return users;
     }
@@ -230,26 +192,15 @@ public class ModelUser {
     public ArrayList<User> getAdmins() throws Exception {
         ArrayList<User> users = new ArrayList<>();
 
-        String sql = "SELECT * FROM user WHERE user_type = 1";
-        db.open();
+        Form form = Form.form();
+        form.add("user_type", "1");
 
-        ResultSet rs = db.getStm().executeQuery(sql);
-        while(rs.next()) {
-            Integer id = rs.getInt(ID_USER);
-            String name = rs.getString(NAME);
-            String username = rs.getString(USERNAME);
-            String phone = rs.getString(PHONE);
-            int user_type = rs.getInt(USER_TYPE);
-            int idSucursal = rs.getInt(ID_SUCURSAL);
-            String email = rs.getString(EMAIL);
-            boolean status = rs.getBoolean(STATUS);
-            String password = rs.getString(PASSWORD);
-            User u = new User(id, name, username, phone, user_type, idSucursal, email, status, password);
-            users.add(u);
+        JSONArray array = Util.requestArray(form, "ModelUser/endPointGetByUserType.php");
+
+        if(array != null) {
+            java.lang.reflect.Type listType = new TypeToken<ArrayList<User>>() {}.getType();
+            users = new Gson().fromJson(array.toString(), listType);
         }
-        rs.close();
-
-        db.close();
 
         return users;
     }
@@ -257,40 +208,33 @@ public class ModelUser {
     public ArrayList<User> getClients() throws Exception {
         ArrayList<User> users = new ArrayList<>();
 
-        String sql = "SELECT * FROM user WHERE user_type = 2";
-        db.open();
+        Form form = Form.form();
+        form.add("user_type", "2");
 
-        ResultSet rs = db.getStm().executeQuery(sql);
-        while(rs.next()) {
-            Integer id = rs.getInt(ID_USER);
-            String name = rs.getString(NAME);
-            String username = rs.getString(USERNAME);
-            String phone = rs.getString(PHONE);
-            int user_type = rs.getInt(USER_TYPE);
-            int idSucursal = rs.getInt(ID_SUCURSAL);
-            String email = rs.getString(EMAIL);
-            boolean status = rs.getBoolean(STATUS);
-            String password = rs.getString(PASSWORD);
-            User u = new User(id, name, username, phone, user_type, idSucursal, email, status, password);
-            users.add(u);
+        JSONArray array = Util.requestArray(form, "ModelUser/endPointGetByUserType.php");
+
+        if(array != null) {
+            java.lang.reflect.Type listType = new TypeToken<ArrayList<User>>() {}.getType();
+            users = new Gson().fromJson(array.toString(), listType);
         }
-        rs.close();
-
-        db.close();
 
         return users;
     }
 
     public boolean delete(Integer idUser) throws Exception {
-        String sql = "DELETE FROM user WHERE idUser = ?";
-        db.open();
-        PreparedStatement pstmt = db.getCon().prepareStatement(sql);
-        pstmt.setInt(1, idUser);
+        boolean result = false;
+        Form form = Form.form();
+        form.add("idUser", idUser.toString());
 
-        int rows = pstmt.executeUpdate();
-        pstmt.close();
-        db.close();
-        return rows > 0;
+        try {
+            JSONObject json = Util.requestJsonObj(form, "ModelUser/endPointDelete.php");
+            if(json != null && !json.toString().equals("Error")) {
+                result = new Gson().fromJson(json.toString(), boolean.class);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
 

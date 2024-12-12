@@ -1,9 +1,9 @@
 package Models.Entities;
 
 public class Comition {
-    private Integer id_comition;
-    private Integer seller;
-    private Integer subscription;
+    private Integer idComition;
+    private Integer User_idSeller;
+    private Integer Subscription_idSubscription;
     private Double amount;
     private String comition_date;
 
@@ -15,36 +15,36 @@ public class Comition {
     public static final String COMITION_DATE = "comition_date";
 
 
-    public Comition(Integer id_comition, Integer seller, Integer subscription, Double amount, String comition_date) {
-        this.id_comition = id_comition;
-        this.seller = seller;
-        this.subscription = subscription;
+    public Comition(Integer idComition, Integer User_idSeller, Integer Subscription_idSubscription, Double amount, String comition_date) {
+        this.idComition = idComition;
+        this.User_idSeller = User_idSeller;
+        this.Subscription_idSubscription = Subscription_idSubscription;
         this.amount = amount;
         this.comition_date = comition_date;
     }
 
-    public Integer getId_comition() {
-        return id_comition;
+    public Integer getIdComition() {
+        return idComition;
     }
 
-    public void setId_comition(Integer id_comition) {
-        this.id_comition = id_comition;
+    public void setIdComition(Integer idComition) {
+        this.idComition = idComition;
     }
 
-    public Integer getSeller() {
-        return seller;
+    public Integer getUser_idSeller() {
+        return User_idSeller;
     }
 
-    public void setSeller(Integer seller) {
-        this.seller = seller;
+    public void setUser_idSeller(Integer user_idSeller) {
+        this.User_idSeller = user_idSeller;
     }
 
-    public Integer getSubscription() {
-        return subscription;
+    public Integer getSubscription_idSubscription() {
+        return Subscription_idSubscription;
     }
 
-    public void setSubscription(Integer subscription) {
-        this.subscription = subscription;
+    public void setSubscription_idSubscription(Integer subscription_idSubscription) {
+        this.Subscription_idSubscription = subscription_idSubscription;
     }
 
     public Double getAmount() {
